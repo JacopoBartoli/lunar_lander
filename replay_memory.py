@@ -6,7 +6,7 @@ from collections import namedtuple
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
-class ReplayBuffer(object):
+class ReplayBuffer:
     """
     Class che implement a fixed size buffer.
     """

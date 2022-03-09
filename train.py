@@ -42,7 +42,7 @@ if __name__ == '__main__':
     state_size = env.observation_space.shape[0]
     action_size = env.action_space.n
 
-    agent = Agent(state_size=8, action_size=4, seed=1)
+    agent = Agent(state_size=state_size, action_size=action_size, seed=1)
 
     eps = EPS_START
     for episode in tqdm(range(MAX_EPISODES)):

@@ -11,7 +11,7 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 class ReplayBuffer:
     """
-    Class che implement a fixed size buffer.
+    Class that implement a fixed size buffer.
     """
 
     def __init__(self, buffer_size, batch_size, seed):

@@ -1,10 +1,12 @@
-import gym
+import os
+import datetime
+
 import torch
+
+import gym
 from gym.wrappers.monitoring import video_recorder
 
 from agent import Agent
-import datetime
-import os
 
 
 def create_paths(env_name):

@@ -8,6 +8,8 @@ from collections import namedtuple
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
+Experience = namedtuple("Experience", field_names=["state", "action", "reward", "next_state", "done"])
+
 
 class ReplayBuffer:
     """
@@ -21,10 +23,8 @@ class ReplayBuffer:
         :param batch_size: the batch size that need to be sampled
         :param seed: seed used for experiment reproducibility.
         """
-        super(ReplayBuffer, self).__init__()
 
-        self.experience = namedtuple("Experience", field_names=["state", "action", "reward", "next_state", "done"])
-        self.memory = np.empty(buffer_size, dtype=self.experience)
+        self.memory = np.empty(buffer_size, dtype=Experience)
 
         self.batch_size = batch_size
         self.push_count = 0
@@ -51,9 +51,9 @@ class ReplayBuffer:
         next_state = torch.from_numpy(next_state).float()
         done = torch.tensor(done).float().unsqueeze(-1)
 
-        e = self.experience(state, action, reward, next_state, done)
+        e = Experience(state, action, reward, next_state, done)
 
-        # Deal with the numpy array like it is a que.
+        # Deal with the numpy array like it is a queue.
         if self.full:
             self.memory[0:-1] = self.memory[1:]
             self.memory[-1] = e
@@ -77,7 +77,7 @@ class ReplayBuffer:
 
         experiences = self.memory[samples]
 
-        batch = self.experience(*zip(*experiences))
+        batch = Experience(*zip(*experiences))
 
         states = torch.stack(batch.state, dim=0).to(device)
         actions = torch.stack(batch.action).to(device)

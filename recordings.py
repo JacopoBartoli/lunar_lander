@@ -9,7 +9,7 @@ from gym.wrappers.monitoring import video_recorder
 from agent import Agent
 
 
-def create_paths(env_name):
+def create_video_path(env_name):
     """
     Create the path hierarchy.
     :param env_name: the name of the environment.
@@ -32,19 +32,22 @@ def create_paths(env_name):
     return recorder_path
 
 
-def save_video(env_name, checkpoint_path='./checkpoint.pth'):
+def save_video(env_name, checkpoint_path='.checkpoints/checkpoint_200.pth'):
     """
     Load the weights of the policy for the DQNAgent, and then save a recording of a single game.
     :param env_name: the name of the environment
     :param checkpoint_path: the path to the policy checkpoint
     :return:
     """
+
+    # Create the agent and get the action space and the action space sizes.
     env = gym.make(env_name)
     state_size = env.observation_space.shape[0]
     action_size = env.action_space.n
+
     agent = Agent(state_size=state_size, action_size=action_size, seed=1)
 
-    recorder_path = create_paths(env_name)
+    recorder_path = create_video_path(env_name)
 
     vid = video_recorder.VideoRecorder(env, base_path=recorder_path)
     agent.policy.load_state_dict(torch.load(checkpoint_path))
@@ -56,10 +59,11 @@ def save_video(env_name, checkpoint_path='./checkpoint.pth'):
         action = agent.act(state)
 
         state, reward, done, _ = env.step(action)
+
     env.close()
     vid.close()
 
 
 if __name__ == '__main__':
-    environment_name = 'LunarLander-v2'
-    save_video(environment_name)
+    ENVIRONMENT_NAME = 'LunarLander-v2'
+    save_video(ENVIRONMENT_NAME)

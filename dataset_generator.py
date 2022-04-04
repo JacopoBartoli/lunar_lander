@@ -13,7 +13,7 @@ from agent import Agent
 from collections import namedtuple
 
 ENV_NAME = 'LunarLander-v2'
-MAX_TRAJECTORIES = 2500
+MAX_TRAJECTORIES = 2000
 CHECKPOINT_PATH = './checkpoints/checkpoint_0.pth'
 
 MAX_TIMESTEP = 1000
@@ -22,6 +22,13 @@ Experience = namedtuple("Experience", field_names=["state", "action", "reward", 
 
 
 def run_episode(env, a, max_t):
+    """
+    Run a simgle game episode.
+    :param env: the game environment
+    :param a: the agent that need to make the decision for the next actions
+    :param max_t: maximum number of action that an agent can take in the environment
+    :return: a list of collected experiences
+    """
 
     data = np.empty(max_t, dtype=Experience)
     index = 0
@@ -81,9 +88,10 @@ if __name__ == '__main__':
 
         idx = experiences.shape[0]
 
-        datalist[num_elem: num_elem + idx] = experiences[:idx]
+        datalist[num_elem: num_elem + idx] = experiences
         num_elem += idx
 
-    store_dataset(datalist[:num_elem], "LunarLander")
+    out = datalist[:num_elem]
+    store_dataset(out, "LunarLander")
 
 

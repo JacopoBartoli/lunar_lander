@@ -9,7 +9,10 @@ import numpy as np
 from tqdm import tqdm
 
 from agent import Agent
-
+"""
+Create checkpoints file for the agent. The checkpoints are created based on the average score that the agent achieves 
+during the last DIM_WINDOW episode played at training time. 
+"""
 
 def run_episode(environment, a, max_t, epsilon):
     state = environment.reset()
@@ -33,6 +36,7 @@ EPS_END = 0.1
 EPS_DECAY = 0.995
 DIM_WINDOW = 100
 
+# Thresholds for saving checkpoints.
 THRESHOLDS = [-200, -100, -50, 0, 50, 100, 200, math.inf]
 
 if __name__ == '__main__':

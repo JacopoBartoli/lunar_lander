@@ -6,8 +6,8 @@ import torch.optim as optim
 
 import numpy as np
 
-from model import QNetwork
-from replay_memory import ReplayBuffer
+from model.deep_model import QNetwork
+from model.replay_memory import ReplayBuffer
 
 BUFFER_SIZE = int(1e5)  # replay buffer size
 BATCH_SIZE = 64         # minibatch size

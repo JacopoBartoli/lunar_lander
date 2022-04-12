@@ -8,13 +8,14 @@ import gym
 
 from tqdm import tqdm
 
-from agent import Agent
+from model.agent import Agent
 
 from collections import namedtuple
 
 ENV_NAME = 'LunarLander-v2'
 MAX_TRAJECTORIES = 2000
-CHECKPOINT_PATH = './checkpoints/checkpoint_0.pth'
+CHECKPOINT_PATH = './checkpoints/checkpoint_600.pth'
+OUT_PATH = 'LunarLander_600'
 
 MAX_TIMESTEP = 1000
 
@@ -92,6 +93,6 @@ if __name__ == '__main__':
         num_elem += idx
 
     out = datalist[:num_elem]
-    store_dataset(out, "LunarLander")
+    store_dataset(out, OUT_PATH)
 
 

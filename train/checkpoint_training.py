@@ -8,7 +8,7 @@ from torch.utils.tensorboard import SummaryWriter
 import numpy as np
 from tqdm import tqdm
 
-from agent import Agent
+from model.agent import Agent
 """
 Create checkpoints file for the agent. The checkpoints are created based on the average score that the agent achieves 
 during the last DIM_WINDOW episode played at training time. 
@@ -36,8 +36,9 @@ EPS_END = 0.1
 EPS_DECAY = 0.995
 DIM_WINDOW = 100
 
-# Thresholds for saving checkpoints.
+# Thresholds for saving checkpoints when the agent achieve a certain score.
 THRESHOLDS = [-200, -100, -50, 0, 50, 100, 200, math.inf]
+thresholding = False
 
 if __name__ == '__main__':
     writer = SummaryWriter()
@@ -78,12 +79,14 @@ if __name__ == '__main__':
         if np.mean(scores_window) >= 200.0:
             print('\nEnvironment solved in {:d} episodes!\tAverage Score: {:.2f}'.format(episode - 100,
                                                                                          np.mean(scores_window)))
-            torch.save(agent.policy.state_dict(), './checkpoints/checkpoint_200.pth')
+            torch.save(agent.policy.state_dict(), './checkpoints/checkpoint_end.pth')
             break
 
-        if THRESHOLDS[thresh_idx] <= np.mean(scores_window):
+        if THRESHOLDS[thresh_idx] <= np.mean(scores_window) and thresholding:
             torch.save(agent.policy.state_dict(), './checkpoints/checkpoint_{}.pth'.format(THRESHOLDS[thresh_idx]))
             thresh_idx += 1
+        elif not thresholding and episode % 100 == 0:
+            torch.save(agent.policy.state_dict(), './checkpoints/checkpoint_{}.pth'.format(episode))
 
     env.close()
     writer.close()

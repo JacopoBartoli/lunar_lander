@@ -6,7 +6,7 @@ from torch.utils.tensorboard import SummaryWriter
 import numpy as np
 from tqdm import tqdm
 
-from agent import Agent
+from model.agent import Agent
 
 
 def run_episode(environment, a, max_t, epsilon):

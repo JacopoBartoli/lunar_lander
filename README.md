@@ -1,7 +1,7 @@
 # Introduction
-This repository contains a implementation of a DQN agent tha solve the [Lunar Lander](https://gym.openai.com/envs/LunarLander-v2/) game and the code needed for the generation of datasets of experiences.
+This repository contains an implementation of a DQN agent that solves the [Lunar Lander](https://gym.openai.com/envs/LunarLander-v2/) game and the code needed for the generation of datasets of experiences.
 
-This codebase goals was to create a simple ε-greedy agent that can solve a simple Gym environment and create a dataset of experiences that can be used by Off-Line agents. 
+The codebase's goals were the creation of an ε-greedy agent that can solve a simple Gym environment and the creation of a dataset of experiences that can be used by Off-Line algorithms. 
 
 ## Overview
 The model folder contains the code for the agent, the policy network and the replay buffer.

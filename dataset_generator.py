@@ -14,8 +14,8 @@ from collections import namedtuple
 
 ENV_NAME = 'LunarLander-v2'
 MAX_TRAJECTORIES = 2000
-CHECKPOINT_PATH = './checkpoints/checkpoint_600.pth'
-OUT_PATH = 'LunarLander_600'
+CHECKPOINT_PATH = './checkpoints/checkpoint_end.pth'
+OUT_PATH = 'LunarLander_end'
 
 MAX_TIMESTEP = 1000
 

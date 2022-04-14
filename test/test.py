@@ -3,6 +3,8 @@ import datetime
 
 import torch
 
+from tqdm import tqdm
+
 import gym
 from gym.wrappers.monitoring import video_recorder
 
@@ -50,18 +52,21 @@ def run_episode(env_name, checkpoint_path, recordings=False):
 
     agent.policy.load_state_dict(torch.load(checkpoint_path))
     state = env.reset()
+    score = 0
     done = False
 
     if recordings:
         recorder_path = create_video_path(env_name)
 
-        vid = video_recorder.VideoRecorder(env, base_path=recorder_path)
+        vid = video_recorder.VideoRecorder(env, base_path=recorder_path + '')
         while not done:
             vid.capture_frame()
 
             action = agent.act(state)
 
             state, reward, done, _ = env.step(action)
+
+            score += reward
 
         vid.close()
     else:
@@ -71,9 +76,23 @@ def run_episode(env_name, checkpoint_path, recordings=False):
 
             state, reward, done, _ = env.step(action)
 
+            score += reward
+
     env.close()
+
+    return score
 
 
 if __name__ == '__main__':
+
     ENVIRONMENT_NAME = 'LunarLander-v2'
-    run_episode(ENVIRONMENT_NAME, checkpoint_path='.checkpoints/checkpoint_200.pth', recordings=False)
+    NUM_EPISODE = 100
+    scr = 0
+    for episode in tqdm(range(NUM_EPISODE)):
+        scr += run_episode(ENVIRONMENT_NAME, checkpoint_path='./checkpoints/checkpoint_end.pth', recordings=False)
+
+    scr = scr / NUM_EPISODE
+
+    print("Mean score: {}".format(scr))
+
+
